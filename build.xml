@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="doxings" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+   
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="webcontent" location="WebContent"/>
+  <property name="server.ip" value="52.1.96.115"/>
+  <property name="server.key" value="/Users/chengyi/Documents/keys/tr-demo.pem"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+  </target>
+	
+	<fileset id="webcontent.files" dir="${webcontent}" >
+	</fileset>
+  
+  <target name="dist">
+	<scp trust="yes" sftp="true" todir="ec2-user@${server.ip}:/home/ec2-user/jetty/webapps/ROOT" 
+		keyfile="${server.key}">
+		<fileset refid="webcontent.files"/>
+	</scp>
+  </target>
+
+  <target name="clean" description="clean up" >
+    <delete dir="${build}"/>
+  </target>
+</project>
